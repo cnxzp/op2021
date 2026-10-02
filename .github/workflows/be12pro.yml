@@ -1,4 +1,4 @@
-name: Build FanchmWrt for BE12Pro
+name: Build FanchmWrt for Tenda BE12 Pro
 
 on:
   repository_dispatch:
@@ -43,7 +43,6 @@ jobs:
     - name: Clone source code
       working-directory: /workdir
       run: |
-        df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
@@ -70,18 +69,15 @@ jobs:
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@main
       if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh != 'false') || contains(github.event.action, 'ssh')
-      env:
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
 
     - name: Generate Configuration
       run: |
         cd openwrt
-        # 强制写入 BE12Pro 的目标架构与设备配置，并启用 daed 及其依赖
+        # 强制写入腾达 BE12 Pro 目标架构与设备配置，并包含 daed
         cat >> .config <<EOF
-        CONFIG_TARGET_qualcommax=y
-        CONFIG_TARGET_qualcommax_ipq95xx=y
-        CONFIG_TARGET_qualcommax_ipq95xx_DEVICE_xiaomi_be12pro=y
+        CONFIG_TARGET_mediatek=y
+        CONFIG_TARGET_mediatek_filogic=y
+        CONFIG_TARGET_mediatek_filogic_DEVICE_tenda_be12-pro=y
         CONFIG_PACKAGE_luci-app-daed=y
         CONFIG_PACKAGE_daed=y
         CONFIG_PACKAGE_dae=y

@@ -16,4 +16,5 @@
 # Add a feed source
 #sed -i '$a src-git lienol https://github.com/Lienol/openwrt-package' feeds.conf.default
 sed -i '$a src-git smpackage https://github.com/kenzok8/small-package' feeds.conf.default
+sed -i '$a src-git istore https://github.com/linkease/istore' feeds.conf.default
 #sed -i '$a src-git daede https://github.com/kenzok8/openwrt-daede' feeds.conf.default

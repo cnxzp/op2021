@@ -1,4 +1,4 @@
-name: Build FanchmWrt for Tenda BE12 Pro
+name: Build FanchmWrt for Tenda BE12 Pro (iStore + daed)
 
 on:
   repository_dispatch:
@@ -10,7 +10,7 @@ on:
         default: 'false'
 
 env:
-  REPO_URL: https://github.com/fanchmwrt/fanchmwrt
+  REPO_URL: https://github.com
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: .config
@@ -73,14 +73,19 @@ jobs:
     - name: Generate Configuration
       run: |
         cd openwrt
-        # 强制写入腾达 BE12 Pro 目标架构与设备配置，并包含 daed
+        # 写入腾达 BE12 Pro 核心架构配置
         cat >> .config <<EOF
         CONFIG_TARGET_mediatek=y
         CONFIG_TARGET_mediatek_filogic=y
         CONFIG_TARGET_mediatek_filogic_DEVICE_tenda_be12-pro=y
+        
+        # 写入 daed 及其核心组件配置
         CONFIG_PACKAGE_luci-app-daed=y
         CONFIG_PACKAGE_daed=y
         CONFIG_PACKAGE_dae=y
+        
+        # 写入 iStore 应用商店核心配置
+        CONFIG_PACKAGE_luci-app-store=y
         EOF
         make defconfig
 

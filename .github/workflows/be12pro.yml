@@ -53,7 +53,7 @@ jobs:
         haveged help2man intltool libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev \
         libncurses5-dev libncursesw5-dev libreadline-dev libssl-dev libtool lrzsz mkisofs nano quilt patch psmisc scons \
         squashfs-tools subversion swig texinfo u-boot-tools upx-ucl unzip xutils-dev qemu-utils upx rsync binutils-dev \
-        libunwind-dev libcap-dev libnuma-dev build-essential clang llvm lld
+        libunwind-dev libcap-dev libnuma-dev build-essential clang llvm lld pahole dwarves
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "Asia/Shanghai"

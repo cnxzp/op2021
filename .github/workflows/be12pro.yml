@@ -120,8 +120,15 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
+        # 1. 显式指定宿主机的 CLANG 编译器路径，防止 OpenWrt 误判为 /invalid/clang
+        export CLANG=/usr/bin/clang
+        export LLVM=1
+        
+        # 2. 如果 dae/daed 依赖下载慢，可取消下面这行的注释来加速 Go 依赖下载
+        # export GOPROXY=https://goproxy.io,direct
+        
         # 优先使用多线程加速，若发生错误 2，则自动降级到单线程强制修复编译
-        make -j$(nproc) || make -j1 V=sc
+        make -j$(nproc) CLANG=/usr/bin/clang || make -j1 V=sc CLANG=/usr/bin/clang
         echo "status=success" >> $GITHUB_OUTPUT
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV

@@ -23,7 +23,7 @@ chmod +x dae
 
 cd /workdir/openwrt
 
-# 重新生成绝对不会报错的本地免编译 Makefile
+# 重新生成免编译 Makefile
 cat > package/dae/Makefile << 'EOF'
 include $(TOPDIR)/rules.mk
 
@@ -41,7 +41,7 @@ define Package/dae
 enddefine
 
 define Build/Compile
-	# 空步骤，直接跳过源码编译
+	# 空步骤，跳过源码编译
 enddefine
 
 define Package/dae/install
